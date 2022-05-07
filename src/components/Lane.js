@@ -1,5 +1,5 @@
 import './Lane.css';
-import React, { memo, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 const Lane = props => {
     const participantEle = useRef();
@@ -7,7 +7,7 @@ const Lane = props => {
     useEffect(() => {
         let fromLeftPos = Number.parseInt(participantEle.current.style.left);
         let parentTotalWidth = participantEle.current.parentElement.clientWidth;
-        if (fromLeftPos >= parentTotalWidth - 90) {
+        if (fromLeftPos >= parentTotalWidth - 95) {
             props.winnerFinalized()
         }
     })
@@ -26,4 +26,4 @@ const Lane = props => {
     )
 }
 
-export default memo(Lane);
+export default Lane;

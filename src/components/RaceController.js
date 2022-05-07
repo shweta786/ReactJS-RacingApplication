@@ -21,10 +21,9 @@ const RaceController = () => {
         }
     }, [])
 
-    function resetPos() {
+    function startNewRace() {
         if (turtlePos !== 30 || rabbitPos !== 30) {
-            setWinnerName('');
-            setButtonText('PAUSE');
+            resetValues();
             setTurtlePos(30);
             setRabbitPos(30);
             if (interval.current) {
@@ -34,12 +33,19 @@ const RaceController = () => {
         }
     }
 
+    function resetValues() {
+        setWinnerName('');
+        setButtonText('PAUSE');
+    }
+
     function startRace() {
-        if (!interval.current && (turtlePos === 30 || rabbitPos === 30)) {
-            setWinnerName('');
-            setButtonText('PAUSE');
+        if (!interval.current && turtlePos === 30 && rabbitPos === 30) {
+            resetValues();
             isPaused.current = false;
             keepRunning();
+        }
+        if (turtlePos !== 30 || rabbitPos !== 30) {
+            alert('Press NEW RACE for starting over again');
         }
     }
 
@@ -79,7 +85,7 @@ const RaceController = () => {
             <div className='actions'>
                 <button onClick={startRace}>GET SET GO!!</button>
                 <button onClick={pauseRace}>{buttonText}</button>
-                <button onClick={resetPos}>NEW RACE</button>
+                <button onClick={startNewRace}>NEW RACE</button>
             </div>
         </div>
     )
