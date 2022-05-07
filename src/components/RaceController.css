@@ -6,7 +6,7 @@
 }
 .actions {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 button {
     margin: 20px;
@@ -15,4 +15,16 @@ button {
     background: black;
     color: white;
     cursor: pointer;
+    width: 140px;
+}
+
+.winner {
+    text-align: center;
+    background: white;
+    width: fit-content;
+    margin: auto;
+    margin-top: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: green;
 }
