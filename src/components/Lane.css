@@ -1,0 +1,45 @@
+.lane {
+    height: 100px;
+    background: #614021;
+    border: 3px solid white;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+}
+.lane:first-child .finish-line {
+    text-align: end;
+    height: 107%;
+}
+.lane:first-child .start-line {
+    height: 107%;
+}
+.lane:not(:first-child) .start-line {
+    text-align: end;
+}
+
+.start-line, .finish-line {
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    background: #3f000f;
+    color: white;
+    letter-spacing: 15px;
+    z-index: 7;
+}
+.start-line {
+    left: 50px;
+    writing-mode: tb-rl;
+    transform: rotate(-180deg);
+}
+
+.finish-line {
+    right: 50px;
+    writing-mode: tb-rl;
+}
+
+.emoji {
+    align-self: center;
+    transform: scaleX(-1);
+    position: absolute;
+    z-index: 9;
+}

@@ -1,0 +1,18 @@
+.arena {
+    margin: 20px 0px;
+    padding: 10px;
+    background-color:#86a852;
+    height: 350px;
+}
+.actions {
+    text-align: center;
+    margin-top: 50px;
+}
+button {
+    margin: 20px;
+    padding: 8px 15px;
+    border-radius: 7px;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
