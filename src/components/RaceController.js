@@ -3,14 +3,13 @@ import './RaceController.css';
 import Lane from './Lane';
 
 const RaceController = () => {
-
-    const [turtlePos, setTurtlePos] = useState(30);
-    const [rabbitPos, setRabbitPos] = useState(30);
-    const [winnerName, setWinnerName] = useState('');
+    const [, setRenderCount] = useState(0); // for updating DOM after each move
     const [buttonText, setButtonText] = useState('PAUSE');
+    const turtlePosRef = useRef(30);
+    const rabbitPosRef = useRef(30);
     const interval = useRef(null);
     const isPaused = useRef(false);
-    let winnerDiv = winnerName.length ? <div className='winner'> WINNER WINNER CHICKEN DINNER: {winnerName}</div> : '';
+    const winnerName = useRef('');
 
     useEffect(() => {
         return () => {
@@ -22,40 +21,51 @@ const RaceController = () => {
     }, [])
 
     function startNewRace() {
-        if (turtlePos !== 30 || rabbitPos !== 30) {
+        if (turtlePosRef.current !== 30 || rabbitPosRef.current !== 30) {
             resetValues();
-            setTurtlePos(30);
-            setRabbitPos(30);
+            turtlePosRef.current = 30
+            rabbitPosRef.current = 30;
             if (interval.current) {
                 clearInterval(interval.current);
                 interval.current = null;
             }
+            setRenderCount((count) => count + 1);
         }
     }
 
     function resetValues() {
-        setWinnerName('');
+        winnerName.current = '';
         setButtonText('PAUSE');
     }
 
     function startRace() {
-        if (!interval.current && turtlePos === 30 && rabbitPos === 30) {
+        if (turtlePosRef.current !== 30 || rabbitPosRef.current !== 30) {
+            alert('Press NEW RACE for starting over again');
+        } else if (!interval.current) {
             resetValues();
             isPaused.current = false;
             keepRunning();
-        }
-        if (turtlePos !== 30 || rabbitPos !== 30) {
-            alert('Press NEW RACE for starting over again');
         }
     }
 
     function keepRunning() {
         interval.current = setInterval(() => {
             if (!isPaused.current) {
-                const randomInt1 = Math.floor(Math.random() * 25) + 1;
-                const randomInt2 = Math.floor(Math.random() * 25) + 1;
-                setTurtlePos((turtlePos) => turtlePos + randomInt1);
-                setRabbitPos((rabbitPos) => rabbitPos + randomInt2);
+                if (!winnerName.current.length) {
+                    const randomChance = Math.floor(Math.random() * 2) + 1;
+                    if (randomChance > 1.55) {
+                        const randomInt1 = Math.floor(Math.random() * 25) + 1;
+                        const randomInt2 = Math.floor(Math.random() * 25) + 1;
+                        turtlePosRef.current += randomInt1;
+                        rabbitPosRef.current += randomInt2;
+                    } else {
+                        const randomInt1 = Math.floor(Math.random() * 25) + 1;
+                        const randomInt2 = Math.floor(Math.random() * 25) + 1;
+                        rabbitPosRef.current += randomInt1;
+                        turtlePosRef.current += randomInt2;
+                    }
+                }
+                setRenderCount((count) => count + 1);
             }
         }, 200);
     }
@@ -71,17 +81,23 @@ const RaceController = () => {
         if (interval.current) {
             clearInterval(interval.current);
             interval.current = null;
-            setWinnerName(name);
+            winnerName.current = name;
+            setRenderCount(count => count + 1)
         }
     }
 
     return (
         <div className='arena'>
-            <Lane startLine='ART' endLine='FIN' imoji='🐢' fromLeft={turtlePos + 'px'}
-                winnerFinalized={() => winnerFinalized('TORTOISE')}></Lane>
-            <Lane startLine='ST' endLine='ISH' imoji='🐇' fromLeft={rabbitPos + 'px'}
-                winnerFinalized={() => winnerFinalized('RABBIT')}></Lane>
-            {winnerDiv}
+            <Lane startLine='ART' endLine='FIN' imoji='🐢' fromLeft={turtlePosRef.current + 'px'}
+                winnerFinalized={() => winnerFinalized('TORTOISE')} winnerName={winnerName.current}></Lane>
+
+            <Lane startLine='ST' endLine='ISH' imoji='🐇' fromLeft={rabbitPosRef.current + 'px'}
+                winnerFinalized={() => winnerFinalized('RABBIT')} winnerName={winnerName.current}></Lane>
+            {
+                winnerName.current.length
+                    ? <div className='winner'> WINNER WINNER CHICKEN DINNER: <span className='winner-name'>{winnerName.current}</span></div>
+                    : ''
+            }
             <div className='actions'>
                 <button onClick={startRace}>GET SET GO!!</button>
                 <button onClick={pauseRace}>{buttonText}</button>

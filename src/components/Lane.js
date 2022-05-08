@@ -7,7 +7,7 @@ const Lane = props => {
     useEffect(() => {
         let fromLeftPos = Number.parseInt(participantEle.current.style.left);
         let parentTotalWidth = participantEle.current.parentElement.clientWidth;
-        if (fromLeftPos >= parentTotalWidth - 95) {
+        if (!props.winnerName.length && fromLeftPos >= parentTotalWidth - 95) {
             props.winnerFinalized()
         }
     })

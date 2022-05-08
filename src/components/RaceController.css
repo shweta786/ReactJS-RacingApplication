@@ -27,5 +27,10 @@ button {
     padding: 5px 10px;
     border-radius: 5px;
     color: green;
+    font-family: cursive;
     font-weight: 500;
+}
+.winner-name {
+    font-weight: bold;
+    color: darkgreen;
 }
