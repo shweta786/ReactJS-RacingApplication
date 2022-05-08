@@ -52,10 +52,10 @@ const RaceController = () => {
     function keepRunning() {
         interval.current = setInterval(() => {
             if (!isPaused.current) {
-                let randomInt = Math.floor(Math.random() * 25) + 1;
-                setTurtlePos((turtlePos) => turtlePos + randomInt);
-                randomInt = Math.floor(Math.random() * 25) + 1;
-                setRabbitPos((rabbitPos) => rabbitPos + randomInt);
+                const randomInt1 = Math.floor(Math.random() * 25) + 1;
+                const randomInt2 = Math.floor(Math.random() * 25) + 1;
+                setTurtlePos((turtlePos) => turtlePos + randomInt1);
+                setRabbitPos((rabbitPos) => rabbitPos + randomInt2);
             }
         }, 200);
     }
@@ -67,7 +67,7 @@ const RaceController = () => {
         }
     }
 
-    function winnerFinalized(name) {
+    const winnerFinalized = (name) => {
         if (interval.current) {
             clearInterval(interval.current);
             interval.current = null;
